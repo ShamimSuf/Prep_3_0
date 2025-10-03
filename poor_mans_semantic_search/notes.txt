@@ -1,0 +1,38 @@
+Given:
+  - term: the query term
+  - synonyms: array of synonyms
+  - S = {term} ∪ synonyms  (synonym set including the term itself)
+
+Then:
+  TF_syn(S, doc) = Σ count(s, doc)  for all s ∈ S
+  
+  df_syn(S, corpus) = |{d ∈ corpus : ∃s ∈ S, s ∈ d}|
+  
+  IDF_syn(S, corpus) = log((N + 1) / (df_syn(S, corpus) + 1))
+  
+  TF-IDF_syn(S, doc, corpus) = TF_syn(S, doc) × IDF_syn(S, corpus)
+
+
+Tokenization + Lowercasing
+Stop Word Removal # use spacy
+Lemmatization
+Punctuation Removal
+Map of doc to its word count (lemmatized words only)
+Inverted index
+{
+  "car": {
+    "doc1": 3,
+    "doc3": 1,
+    "doc5": 2
+  },
+  "automobile": {
+    "doc2": 1,
+    "doc5": 1
+  },
+  "vehicle": {
+    "doc2": 2,
+    "doc4": 1,
+    "doc5": 1
+  }
+}
+Synonym array from Wordnet

@@ -1,0 +1,204 @@
+{
+  "documents": [
+    {
+      "id": "doc1",
+      "title": "Machine Learning Basics",
+      "text": "Machine learning is a subset of artificial intelligence that enables computers to learn and make decisions from data without being explicitly programmed. Algorithms analyze patterns in training data to make predictions on new data."
+    },
+    {
+      "id": "doc2", 
+      "title": "Italian Pasta Recipe",
+      "text": "To make authentic Italian pasta, start with fresh ingredients. Combine flour and eggs to form dough. Knead the dough until smooth, then roll it thin and cut into desired shapes. Cook in boiling salted water until al dente."
+    },
+    {
+      "id": "doc3",
+      "title": "Basketball Championship",
+      "text": "The basketball championship was intense with both teams showing excellent defense and offensive strategies. The final quarter saw incredible three-point shots and fast breaks that kept fans on the edge of their seats."
+    },
+    {
+      "id": "doc4",
+      "title": "Climate Change Research", 
+      "text": "Recent climate change research indicates rising global temperatures are causing significant environmental impacts. Scientists study weather patterns, ice cap melting, and carbon dioxide levels to understand climate trends."
+    },
+    {
+      "id": "doc5",
+      "title": "European Travel Guide",
+      "text": "Traveling through Europe offers diverse cultural experiences from the museums of Paris to the canals of Venice. Plan your itinerary to include historic landmarks, local cuisine, and scenic train routes between major cities."
+    },
+    {
+      "id": "doc6",
+      "title": "Healthy Cooking Tips",
+      "text": "Healthy cooking involves using fresh vegetables, lean proteins, and whole grains. Steam or grill foods instead of frying to reduce calories. Season with herbs and spices rather than excess salt or sugar."
+    },
+    {
+      "id": "doc7",
+      "title": "Neural Networks Explained",
+      "text": "Neural networks are computational models inspired by biological neural networks. They consist of interconnected nodes that process information through weighted connections. Deep learning uses multiple layers of neural networks for complex pattern recognition."
+    },
+    {
+      "id": "doc8",
+      "title": "Soccer World Cup",
+      "text": "The soccer world cup brings together the best teams from around the globe. Players showcase their skills in dribbling, passing, and scoring goals. The tournament creates excitement for millions of soccer fans worldwide."
+    },
+    {
+      "id": "doc9",
+      "title": "Space Exploration",
+      "text": "Space exploration has led to remarkable discoveries about our universe. Astronauts conduct experiments in zero gravity while space telescopes capture images of distant galaxies. Mars missions aim to find signs of past or present life."
+    },
+    {
+      "id": "doc10",
+      "title": "Asian Cuisine Traditions",
+      "text": "Asian cuisine features diverse flavors from Japanese sushi to Thai curry. Rice is a staple ingredient across many Asian cultures. Cooking techniques include stir-frying, steaming, and using aromatic spices like ginger and lemongrass."
+    },
+    {
+      "id": "doc11",
+      "title": "Medical Breakthrough",
+      "text": "Medical researchers have developed new treatments for cancer patients using immunotherapy. The breakthrough helps the immune system recognize and attack cancer cells more effectively, improving survival rates for patients."
+    },
+    {
+      "id": "doc12",
+      "title": "Mountain Hiking Adventure",
+      "text": "Mountain hiking requires proper preparation including sturdy boots, weather-appropriate clothing, and navigation tools. Hikers should carry enough water and food for the journey while respecting wildlife and natural environments."
+    },
+    {
+      "id": "doc13",
+      "title": "Photography Techniques",
+      "text": "Photography involves capturing light and composition to create compelling images. Professional photographers use various camera settings, lenses, and lighting techniques to achieve artistic effects. Digital photography allows for post-processing and editing capabilities."
+    },
+    {
+      "id": "doc14",
+      "title": "Ocean Marine Biology",
+      "text": "Marine biology studies ocean ecosystems and sea creatures. Scientists explore coral reefs, deep sea trenches, and coastal environments to understand marine life diversity. Ocean conservation efforts protect endangered species like whales and sea turtles."
+    },
+    {
+      "id": "doc15",
+      "title": "Classical Music History",
+      "text": "Classical music spans centuries of musical composition from baroque to romantic periods. Famous composers like Mozart, Beethoven, and Bach created symphonies and concertos that continue to inspire musicians today. Orchestra performances bring classical music to modern audiences."
+    },
+    {
+      "id": "doc16",
+      "title": "Renewable Energy Sources",
+      "text": "Renewable energy includes solar panels, wind turbines, and hydroelectric power. These sustainable energy sources reduce carbon emissions and environmental impact. Solar energy harnesses sunlight while wind power captures natural air currents for electricity generation."
+    },
+    {
+      "id": "doc17",
+      "title": "Ancient Roman History",
+      "text": "The Roman Empire dominated ancient civilizations for centuries. Roman architecture featured impressive structures like the Colosseum and aqueducts. Roman culture influenced law, government, and military strategies that shaped Western civilization."
+    },
+    {
+      "id": "doc18",
+      "title": "Gardening and Plant Care",
+      "text": "Successful gardening requires understanding soil conditions, plant nutrition, and watering schedules. Gardeners grow vegetables, flowers, and herbs using organic fertilizers and pest control methods. Indoor plants need proper lighting and humidity for healthy growth."
+    },
+    {
+      "id": "doc19",
+      "title": "Cybersecurity Fundamentals",
+      "text": "Cybersecurity protects computer systems and networks from digital attacks. Security experts use encryption, firewalls, and authentication protocols to prevent data breaches. Organizations implement security policies to protect sensitive information from hackers and malware."
+    },
+    {
+      "id": "doc20",
+      "title": "Wildlife Conservation",
+      "text": "Wildlife conservation efforts protect endangered animal species and their natural habitats. Conservation biologists study animal behavior, migration patterns, and breeding programs. National parks and wildlife reserves provide protected areas for animals to thrive safely."
+    },
+    {
+      "id": "doc21",
+      "title": "Fashion Design Trends",
+      "text": "Fashion design combines creativity with textile knowledge to create stylish clothing. Designers consider color theory, fabric selection, and seasonal trends when developing new collections. Fashion shows showcase designer creations to buyers and fashion enthusiasts worldwide."
+    },
+    {
+      "id": "doc22",
+      "title": "Astronomy and Stars",
+      "text": "Astronomy studies celestial objects including stars, planets, and galaxies. Astronomers use telescopes to observe distant cosmic phenomena and stellar formations. Star constellations have guided navigation and inspired mythology across different cultures throughout history."
+    },
+    {
+      "id": "doc23",
+      "title": "Deep Learning Applications",
+      "text": "Deep learning algorithms power artificial intelligence applications in computer vision and natural language processing. Machine learning models use neural networks with multiple layers to recognize patterns in complex data sets and make intelligent predictions."
+    },
+    {
+      "id": "doc24",
+      "title": "French Cooking Techniques",
+      "text": "French cuisine emphasizes technique and fresh ingredients in cooking. Classic French recipes use butter, herbs, and wine to create rich flavors. Cooking methods like sautéing, braising, and roasting are fundamental to French culinary traditions."
+    },
+    {
+      "id": "doc25",
+      "title": "Tennis Championship Finals",
+      "text": "The tennis championship featured intense matches with powerful serves and precise volleys. Players demonstrated exceptional athletic skills during long rallies. The final set showcased incredible endurance and strategic shot placement from both competitors."
+    },
+    {
+      "id": "doc26",
+      "title": "Environmental Science Research",
+      "text": "Environmental scientists study climate patterns and ecosystem changes caused by global warming. Research focuses on temperature variations, precipitation patterns, and environmental impacts on wildlife habitats and agricultural systems."
+    },
+    {
+      "id": "doc27",
+      "title": "Data Science and Analytics",
+      "text": "Data science combines statistics, programming, and domain expertise to extract insights from large datasets. Data scientists use machine learning algorithms and artificial intelligence techniques to analyze patterns and build predictive models for business decisions."
+    },
+    {
+      "id": "doc28",
+      "title": "Mediterranean Cooking",
+      "text": "Mediterranean cuisine features olive oil, fresh vegetables, and seafood in healthy meal preparation. Traditional cooking methods include grilling fish, roasting vegetables, and using herbs like basil and oregano for natural flavoring."
+    },
+    {
+      "id": "doc29",
+      "title": "Olympic Swimming Competition",
+      "text": "Olympic swimming competitions showcase world-class athletes competing in various strokes and distances. Swimmers train intensively to improve their technique, speed, and endurance for championship races and record-breaking performances."
+    },
+    {
+      "id": "doc30",
+      "title": "Biomedical Research",
+      "text": "Biomedical researchers develop innovative treatments and therapies for various diseases. Medical scientists conduct clinical trials to test new medications and treatment protocols that improve patient outcomes and survival rates."
+    },
+    {
+      "id": "doc31",
+      "title": "Computer Vision Systems",
+      "text": "Computer vision uses artificial intelligence and machine learning algorithms to analyze and interpret visual data from images and videos. Deep learning neural networks enable computers to recognize objects, faces, and patterns with high accuracy."
+    },
+    {
+      "id": "doc32",
+      "title": "Baking and Pastry Arts",
+      "text": "Professional baking requires precise measurements and temperature control for creating breads, cakes, and pastries. Bakers use fresh ingredients, proper mixing techniques, and timing to achieve perfect texture and flavor in their creations."
+    },
+    {
+      "id": "doc33",
+      "title": "Baseball Season Highlights",
+      "text": "The baseball season featured outstanding pitching performances and dramatic home runs. Players demonstrated exceptional batting averages and fielding skills throughout the championship series. Fans celebrated record-breaking achievements and memorable game moments."
+    },
+    {
+      "id": "doc34",
+      "title": "Planetary Science Studies",
+      "text": "Planetary scientists study the formation and evolution of planets in our solar system and beyond. Space missions to Mars, Jupiter, and Saturn provide valuable data about planetary atmospheres, geology, and potential for life."
+    },
+    {
+      "id": "doc35",
+      "title": "Digital Marketing Strategies",
+      "text": "Digital marketing leverages online platforms and data analytics to reach target audiences effectively. Marketers use social media, email campaigns, and search engine optimization to increase brand visibility and customer engagement."
+    },
+    {
+      "id": "doc36",
+      "title": "Vegetarian Recipe Collection",
+      "text": "Vegetarian cooking emphasizes plant-based ingredients including fresh vegetables, legumes, and grains. Creative recipes combine herbs, spices, and cooking techniques to create nutritious and flavorful meals without meat."
+    },
+    {
+      "id": "doc37",
+      "title": "Hockey Championship Game",
+      "text": "The hockey championship showcased fast-paced action with skillful skating and precise puck handling. Teams executed strategic plays and power moves while goalies made spectacular saves throughout the intense competition."
+    },
+    {
+      "id": "doc38",
+      "title": "Genetic Engineering Research",
+      "text": "Genetic engineering scientists modify DNA sequences to develop new medical treatments and agricultural improvements. Researchers use advanced laboratory techniques to study gene expression and create therapeutic solutions for genetic diseases."
+    },
+    {
+      "id": "doc39",
+      "title": "Urban Architecture Design",
+      "text": "Urban architects design sustainable buildings and city spaces that accommodate growing populations. Modern architecture incorporates green technologies, efficient materials, and innovative structural designs to create functional urban environments."
+    },
+    {
+      "id": "doc40",
+      "title": "Quantum Computing Advances",
+      "text": "Quantum computing represents a revolutionary approach to information processing using quantum mechanical principles. Quantum computers leverage superposition and entanglement to solve complex computational problems exponentially faster than classical computers."
+    }
+  ]
+}
