@@ -354,9 +354,6 @@ class PoorMansSemanticSearch:
         # Initialize TF-IDF calculator
         self.tfidf_calculator = SynonymBasedTFIDF(lemmatized_docs, inverted_index, synonyms_dict)
         
-        print(f"✓ Loaded {len(lemmatized_docs)} documents")
-        print(f"✓ Built inverted index with {len(inverted_index)} unique terms")
-        print(f"✓ Generated synonyms for {len(synonyms_dict)} terms")
         return True
     
     def process_query(self, query_text: str) -> list:
@@ -514,26 +511,26 @@ class PoorMansSemanticSearch:
 
 # Example usage
 if __name__ == "__main__":
-    processor = DatasetProcessing()
+    # processor = DatasetProcessing()
     
     # Load and tokenize the toy dataset
-    dataset_path = "dataset/toy/toy_dataset.json"
-    tokenized_docs = processor.load_and_tokenize_dataset(dataset_path)
+    # dataset_path = "dataset/toy/toy_dataset.json"
+    # tokenized_docs = processor.load_and_tokenize_dataset(dataset_path)
     
     # Remove stop words
-    filtered_docs = processor.remove_stop_words(tokenized_docs)
+    # filtered_docs = processor.remove_stop_words(tokenized_docs)
     
     # Lemmatize tokens
-    lemmatized_docs = processor.lemmatize_tokens(filtered_docs)
+    # lemmatized_docs = processor.lemmatize_tokens(filtered_docs)
     
     # Build inverted index
-    inverted_index = processor.build_inverted_index(lemmatized_docs)
+    # inverted_index = processor.build_inverted_index(lemmatized_docs)
     
     # Get synonyms for all terms
-    synonyms_dict = processor.get_synonyms_from_wordnet(inverted_index)
+    # synonyms_dict = processor.get_synonyms_from_wordnet(inverted_index)
     
     # Create synonym-based TF-IDF calculator
-    tfidf_calculator = SynonymBasedTFIDF(lemmatized_docs, inverted_index, synonyms_dict)
+    # tfidf_calculator = SynonymBasedTFIDF(lemmatized_docs, inverted_index, synonyms_dict)
         
     # Demo the complete Poor Man's Semantic Search
     print("\n" + "="*60)
