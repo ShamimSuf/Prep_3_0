@@ -1,17 +1,29 @@
-Given:
-  - term: the query term
-  - synonyms: array of synonyms
-  - S = {term} ∪ synonyms  (synonym set including the term itself)
+TF_syn(S, doc) = (Σ count(s, doc) for all s ∈ S) / (total tokens in doc)
 
-Then:
-  TF_syn(S, doc) = Σ count(s, doc)  for all s ∈ S
-  
-  df_syn(S, corpus) = |{d ∈ corpus : ∃s ∈ S, s ∈ d}|
-  
-  IDF_syn(S, corpus) = log((N + 1) / (df_syn(S, corpus) + 1))
-  
-  TF-IDF_syn(S, doc, corpus) = TF_syn(S, doc) × IDF_syn(S, corpus)
+S = {term} ∪ synonyms (synonym set including the original term)
+count(s, doc) = number of occurrences of synonym s in document doc
+total tokens in doc = total number of lemmatized tokens in the document
 
+df_syn(S, corpus) = |{d ∈ corpus : ∃s ∈ S, s ∈ d}|
+
+Count of documents that contain at least one synonym from set S
+A document is counted only once even if it contains multiple synonyms from S
+
+IDF_syn(S, corpus) = log((N + 1) / (df_syn(S, corpus) + 1))
+
+N = total number of documents in the corpus
++1 smoothing prevents division by zero and handles unseen terms
+Higher IDF = synonym set appears in fewer documents (more distinctive)
+Lower IDF = synonym set appears in many documents (less distinctive)
+
+TF-IDF_syn(S, doc, corpus) = TF_syn(S, doc) × IDF_syn(S, corpus)
+
+TF component: Rewards documents with high synonym density
+IDF component: Rewards rare/distinctive synonym sets
+Synonym expansion: Captures semantic similarity beyond exact matches
+Normalization: Ensures fair scoring across document lengths
+
+################################################################################################
 
 Tokenization + Lowercasing + Punctuation Removal
 Stop Word Removal # use spacy
@@ -35,3 +47,220 @@ Inverted index
   }
 }
 Synonym array from Wordnet
+
+################################################################################################
+# POOR MAN'S SEMANTIC SEARCH
+################################################################################################
+
+## CONCEPT OVERVIEW
+Poor Man's Semantic Search is a lightweight alternative to embedding-based semantic search that uses 
+synonym expansion + TF-IDF to capture semantic meaning through lexical relationships, without requiring 
+neural networks, training, or vector databases.
+
+## CORE ARCHITECTURE
+
+### 1. PREPROCESSING PIPELINE
+Documents → Tokenization → Stop Word Removal → Lemmatization → Inverted Index + Synonym Dictionary
+
+### 2. QUERY PROCESSING PIPELINE  
+Query → Tokenize → Remove Stop Words → Lemmatize → Expand with Synonyms → Calculate Weighted TF-IDF
+
+### 3. SCORING METHODOLOGY
+Uses synonym-based TF-IDF with query term weighting for final document ranking
+
+## MATHEMATICAL FRAMEWORK
+
+### Synonym Set Construction
+S = {term} ∪ synonyms(term)
+- Uses WordNet to expand each query term with up to 10 single-word synonyms
+- Example: "machine" → {"machine", "device", "apparatus", "engine", "mechanism"}
+
+### Synonym-Based TF-IDF Calculation
+For each query term and document:
+
+1. TF_syn(S, doc) = (Σ count(s, doc) for all s ∈ S) / (total tokens in doc)
+2. df_syn(S, corpus) = |{d ∈ corpus : ∃s ∈ S, s ∈ d}|  
+3. IDF_syn(S, corpus) = log((N + 1) / (df_syn(S, corpus) + 1))
+4. TF-IDF_syn(S, doc) = TF_syn(S, doc) × IDF_syn(S, corpus)
+
+### Query Term Weighting
+weight(term) = IDF_syn(S_term, corpus)
+- Rare terms get higher weights (more discriminative)
+- Common terms get lower weights (less distinctive)
+
+### Final Document Scoring
+Score(doc, query) = Σ (weight(term_i) × TF-IDF_syn(term_i, doc))
+                  = Σ (IDF_syn(term_i) × TF-IDF_syn(term_i, doc))  
+                  = Σ (TF_syn(term_i, doc) × IDF_syn²(term_i))
+
+## SEMANTIC MATCHING EXAMPLES
+
+Query: "car" matches documents containing:
+- Exact: "car"
+- Synonyms: "automobile", "vehicle", "motor", "auto"
+
+Query: "happy" matches documents containing:  
+- Exact: "happy"
+- Synonyms: "joyful", "cheerful", "delighted", "pleased"
+
+Query: "intelligent system" gets weighted scores:
+- "intelligent" (rare) → high weight → big impact on ranking
+- "system" (common) → low weight → less impact on ranking
+
+## ADVANTAGES OVER VECTOR SEARCH
+✓ No training required - uses pre-built WordNet
+✓ Interpretable - can see exactly why documents matched  
+✓ Fast - simple mathematical operations, no neural networks
+✓ Memory efficient - no dense vectors to store
+✓ Domain agnostic - works across topics without retraining
+✓ Real-time updates - easy to add/remove documents
+
+## LIMITATIONS
+✗ Synonym quality limited by WordNet coverage
+✗ Context blindness - can't handle polysemy (bank = financial vs river)
+✗ No compositionality - struggles with phrases like "machine learning"  
+✗ Synonym noise - some WordNet synonyms may be irrelevant
+✗ No semantic similarity between different concepts
+
+## IMPLEMENTATION COMPONENTS
+
+### Core Classes
+1. DatasetProcessing - handles tokenization, lemmatization, inverted index
+2. SynonymBasedTFIDF - calculates synonym-based TF-IDF scores
+3. SemanticSearch - combines everything for query processing and ranking
+
+### Key Data Structures  
+- lemmatized_docs: {doc_id: [tokens]}
+- inverted_index: {term: {doc_id: count}}
+- synonyms_dict: {term: [synonym1, synonym2, ...]}
+
+## USE CASES
+- Document search with limited computational resources
+- Domains where neural embeddings are overkill  
+- Situations requiring interpretable search results
+- Real-time search where embedding generation is too slow
+- Academic/educational exploration of IR concepts
+
+## PERFORMANCE CHARACTERISTICS
+- Query Time: O(|query_terms| × |relevant_docs|)  
+- Memory: O(|vocabulary| + |documents|)
+- Setup Time: O(|documents| × |avg_doc_length|)
+
+This approach provides a practical middle ground between exact keyword matching and 
+full neural semantic search, offering semantic capabilities without the computational overhead.
+
+################################################################################################
+# FULL EXAMPLE WALKTHROUGH
+################################################################################################
+
+## SAMPLE DOCUMENTS
+doc1: "Machine learning systems use algorithms to analyze data and make intelligent predictions."
+doc2: "Healthy cooking involves using fresh vegetables and proper techniques for meal preparation."  
+doc3: "Advanced devices and smart systems help researchers process complex information efficiently."
+
+## QUERY
+"intelligent machine"
+
+## STEP-BY-STEP CALCULATION
+
+### Step 1: Query Processing
+Query: "intelligent machine"
+→ Tokenize: ["intelligent", "machine"] 
+→ Lemmatize: ["intelligent", "machine"]
+
+### Step 2: Synonym Expansion  
+intelligent → S₁ = {"intelligent", "smart", "clever", "bright", "wise"}
+machine → S₂ = {"machine", "device", "system", "apparatus", "engine"}
+
+### Step 3: Document Processing (Lemmatized)
+doc1: ["machine", "learn", "system", "use", "algorithm", "analyze", "data", "make", "intelligent", "prediction"] (10 tokens)
+doc2: ["healthy", "cook", "involve", "use", "fresh", "vegetable", "proper", "technique", "meal", "preparation"] (10 tokens)  
+doc3: ["advanced", "device", "smart", "system", "help", "researcher", "process", "complex", "information", "efficiently"] (10 tokens)
+
+### Step 4: Count Synonym Occurrences
+
+For "intelligent" (S₁):
+- doc1: intelligent(1) + smart(0) + clever(0) + bright(0) + wise(0) = 1 occurrence
+- doc2: intelligent(0) + smart(0) + clever(0) + bright(0) + wise(0) = 0 occurrences  
+- doc3: intelligent(0) + smart(1) + clever(0) + bright(0) + wise(0) = 1 occurrence
+
+For "machine" (S₂):  
+- doc1: machine(1) + device(0) + system(1) + apparatus(0) + engine(0) = 2 occurrences
+- doc2: machine(0) + device(0) + system(0) + apparatus(0) + engine(0) = 0 occurrences
+- doc3: machine(0) + device(1) + system(1) + apparatus(0) + engine(0) = 2 occurrences
+
+### Step 5: Calculate TF_syn (Normalized)
+
+For "intelligent":
+- TF_syn(S₁, doc1) = 1/10 = 0.10
+- TF_syn(S₁, doc2) = 0/10 = 0.00  
+- TF_syn(S₁, doc3) = 1/10 = 0.10
+
+For "machine":
+- TF_syn(S₂, doc1) = 2/10 = 0.20
+- TF_syn(S₂, doc2) = 0/10 = 0.00
+- TF_syn(S₂, doc3) = 2/10 = 0.20
+
+### Step 6: Calculate df_syn
+
+For "intelligent" (S₁): 
+- Documents containing at least one synonym: {doc1, doc3} 
+- df_syn(S₁) = 2
+
+For "machine" (S₂):
+- Documents containing at least one synonym: {doc1, doc3}  
+- df_syn(S₂) = 2
+
+### Step 7: Calculate IDF_syn
+N = 3 total documents
+
+For "intelligent":
+IDF_syn(S₁) = log((3+1)/(2+1)) = log(4/3) = 0.287
+
+For "machine": 
+IDF_syn(S₂) = log((3+1)/(2+1)) = log(4/3) = 0.287
+
+### Step 8: Calculate TF-IDF_syn
+
+For "intelligent":
+- TF-IDF_syn(S₁, doc1) = 0.10 × 0.287 = 0.029
+- TF-IDF_syn(S₁, doc2) = 0.00 × 0.287 = 0.000
+- TF-IDF_syn(S₁, doc3) = 0.10 × 0.287 = 0.029
+
+For "machine":  
+- TF-IDF_syn(S₂, doc1) = 0.20 × 0.287 = 0.057
+- TF-IDF_syn(S₂, doc2) = 0.00 × 0.287 = 0.000  
+- TF-IDF_syn(S₂, doc3) = 0.20 × 0.287 = 0.057
+
+### Step 9: Calculate Query Term Weights
+weight("intelligent") = IDF_syn(S₁) = 0.287
+weight("machine") = IDF_syn(S₂) = 0.287
+
+### Step 10: Final Document Scores
+Score(doc, query) = weight("intelligent") × TF-IDF_syn("intelligent", doc) + weight("machine") × TF-IDF_syn("machine", doc)
+
+doc1: (0.287 × 0.029) + (0.287 × 0.057) = 0.008 + 0.016 = 0.024
+doc2: (0.287 × 0.000) + (0.287 × 0.000) = 0.000 + 0.000 = 0.000  
+doc3: (0.287 × 0.029) + (0.287 × 0.057) = 0.008 + 0.016 = 0.024
+
+### Step 11: Final Ranking
+1. doc1: 0.024 (tied) - Contains "intelligent" and "machine"+"system" 
+2. doc3: 0.024 (tied) - Contains "smart" and "device"+"system"
+3. doc2: 0.000 - No relevant terms (cooking doc)
+
+## KEY INSIGHTS FROM EXAMPLE
+
+✓ **Semantic Matching Works**: doc3 ranks high even though it doesn't contain "intelligent" or "machine" 
+  exactly - it matches via synonyms "smart" and "device"+"system"
+
+✓ **Synonym Expansion**: Query "intelligent machine" successfully matches:
+  - doc1: "intelligent" + "machine"+"system" 
+  - doc3: "smart" + "device"+"system"
+
+✓ **Irrelevant Filtering**: doc2 (cooking) gets zero score as expected
+
+✓ **Fair Normalization**: Both docs get same score despite different vocabulary - 
+  normalization ensures fair comparison
+
+This demonstrates how Poor Man's Semantic Search captures semantic similarity through 
+synonym expansion while maintaining computational simplicity.

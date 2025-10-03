@@ -317,6 +317,201 @@ class SynonymBasedTFIDF:
         print(f"TF-IDF_syn(S, {doc_id}, corpus): {tfidf_syn:.4f}")
 
 
+class PoorMansSemanticSearch:
+    """Complete Poor Man's Semantic Search implementation"""
+    
+    def __init__(self, dataset_path: str = None):
+        self.processor = DatasetProcessing()
+        self.tfidf_calculator = None
+        self.original_docs = {}
+        
+        if dataset_path:
+            self.load_dataset(dataset_path)
+    
+    def load_dataset(self, dataset_path: str):
+        """Load and process the dataset for searching"""
+        print("Loading and processing dataset...")
+        
+        # Load original documents for display
+        try:
+            with open(dataset_path, 'r', encoding='utf-8') as file:
+                data = json.load(file)
+                self.original_docs = {doc['id']: doc for doc in data['documents']}
+        except Exception as e:
+            print(f"Error loading original documents: {e}")
+            return False
+        
+        # Process through the full pipeline
+        tokenized_docs = self.processor.load_and_tokenize_dataset(dataset_path)
+        if not tokenized_docs:
+            return False
+            
+        filtered_docs = self.processor.remove_stop_words(tokenized_docs)
+        lemmatized_docs = self.processor.lemmatize_tokens(filtered_docs)
+        inverted_index = self.processor.build_inverted_index(lemmatized_docs)
+        synonyms_dict = self.processor.get_synonyms_from_wordnet(inverted_index)
+        
+        # Initialize TF-IDF calculator
+        self.tfidf_calculator = SynonymBasedTFIDF(lemmatized_docs, inverted_index, synonyms_dict)
+        
+        print(f"✓ Loaded {len(lemmatized_docs)} documents")
+        print(f"✓ Built inverted index with {len(inverted_index)} unique terms")
+        print(f"✓ Generated synonyms for {len(synonyms_dict)} terms")
+        return True
+    
+    def process_query(self, query_text: str) -> list:
+        """
+        Process query text into lemmatized terms
+        
+        Args:
+            query_text: Raw query string
+            
+        Returns:
+            List of processed query terms
+        """
+        tokens = self.processor.tokenize_text(query_text)
+        filtered_tokens = []
+        
+        # Remove stop words if spaCy is available
+        if self.processor.nlp:
+            for token in tokens:
+                if token not in self.processor.nlp.Defaults.stop_words:
+                    filtered_tokens.append(token)
+        else:
+            filtered_tokens = tokens
+        
+        # Lemmatize tokens
+        lemmatized_terms = []
+        if self.processor.nlp:
+            for token in filtered_tokens:
+                doc = self.processor.nlp(token)
+                lemmatized_terms.append(doc[0].lemma_)
+        else:
+            lemmatized_terms = filtered_tokens
+        
+        return lemmatized_terms
+    
+    def calculate_query_weights(self, query_terms: list) -> dict:
+        """
+        Calculate IDF-based weights for query terms
+        
+        Args:
+            query_terms: List of processed query terms
+            
+        Returns:
+            Dictionary mapping terms to their weights
+        """
+        weights = {}
+        
+        for term in query_terms:
+            synonym_set = self.tfidf_calculator.get_synonym_set(term)
+            idf_syn = self.tfidf_calculator.calculate_idf_syn(synonym_set)
+            weights[term] = idf_syn
+        
+        return weights
+    
+    def search(self, query_text: str, top_k: int = 10, show_details: bool = False) -> list:
+        """
+        Perform Poor Man's Semantic Search
+        
+        Args:
+            query_text: Natural language query
+            top_k: Number of top results to return
+            show_details: Whether to show detailed scoring information
+            
+        Returns:
+            List of tuples (doc_id, score, title, text_snippet)
+        """
+        if not self.tfidf_calculator:
+            print("Error: Dataset not loaded. Call load_dataset() first.")
+            return []
+        
+        # Process query
+        query_terms = self.process_query(query_text)
+        if not query_terms:
+            print("No valid query terms found.")
+            return []
+        
+        if show_details:
+            print(f"\nQuery: '{query_text}'")
+            print(f"Processed terms: {query_terms}")
+        
+        # Calculate query term weights
+        weights = self.calculate_query_weights(query_terms)
+        
+        if show_details:
+            print(f"\nTerm weights:")
+            for term, weight in weights.items():
+                print(f"  {term}: {weight:.4f}")
+        
+        # Score all documents
+        doc_scores = {}
+        
+        for doc_id in self.tfidf_calculator.lemmatized_docs.keys():
+            total_score = 0.0
+            
+            for term in query_terms:
+                tfidf_score = self.tfidf_calculator.calculate_tfidf_syn(term, doc_id)
+                weighted_score = weights[term] * tfidf_score
+                total_score += weighted_score
+            
+            doc_scores[doc_id] = total_score
+        
+        # Sort by score (descending)
+        ranked_results = sorted(doc_scores.items(), key=lambda x: x[1], reverse=True)
+        
+        # Format results
+        results = []
+        for doc_id, score in ranked_results[:top_k]:
+            if score > 0:  # Only include documents with positive scores
+                doc_info = self.original_docs.get(doc_id, {})
+                title = doc_info.get('title', 'No Title')
+                text = doc_info.get('text', 'No Text')
+                
+                # Create text snippet (first 100 characters)
+                text_snippet = text[:100] + "..." if len(text) > 100 else text
+                
+                results.append((doc_id, score, title, text_snippet))
+        
+        return results
+    
+    def show_search_details(self, query_text: str, doc_id: str):
+        """
+        Show detailed breakdown of how a document scored for a query
+        
+        Args:
+            query_text: The search query
+            doc_id: Document to analyze
+        """
+        if not self.tfidf_calculator:
+            print("Error: Dataset not loaded.")
+            return
+        
+        query_terms = self.process_query(query_text)
+        weights = self.calculate_query_weights(query_terms)
+        
+        print(f"\n=== Detailed Scoring for '{doc_id}' ===")
+        print(f"Query: '{query_text}'")
+        print(f"Document: {self.original_docs.get(doc_id, {}).get('title', doc_id)}")
+        
+        total_score = 0.0
+        
+        for term in query_terms:
+            tfidf_score = self.tfidf_calculator.calculate_tfidf_syn(term, doc_id)
+            weighted_score = weights[term] * tfidf_score
+            total_score += weighted_score
+            
+            synonym_set = self.tfidf_calculator.get_synonym_set(term)
+            
+            print(f"\nTerm: '{term}'")
+            print(f"  Synonym set: {synonym_set}")
+            print(f"  TF-IDF_syn score: {tfidf_score:.6f}")
+            print(f"  Weight (IDF_syn): {weights[term]:.6f}")
+            print(f"  Weighted score: {weighted_score:.6f}")
+        
+        print(f"\nFinal Score: {total_score:.6f}")
+
+
 # Example usage
 if __name__ == "__main__":
     processor = DatasetProcessing()
@@ -340,20 +535,40 @@ if __name__ == "__main__":
     # Create synonym-based TF-IDF calculator
     tfidf_calculator = SynonymBasedTFIDF(lemmatized_docs, inverted_index, synonyms_dict)
         
-    # Demo synonym-based TF-IDF calculation
-    test_terms = ["machine", "learn", "cook", "system"]
-    test_doc = "doc1"
+    # Demo the complete Poor Man's Semantic Search
+    print("\n" + "="*60)
+    print("POOR MAN'S SEMANTIC SEARCH DEMO")
+    print("="*60)
     
-    print(f"\n=== Synonym-based TF-IDF Demo ===")
-    for term in test_terms:
-        if term in inverted_index:
-            tfidf_calculator.show_term_analysis(term, test_doc)
+    # Initialize search system
+    search_engine = PoorMansSemanticSearch()
+    search_engine.load_dataset("dataset/toy/toy_dataset.json")
     
-    # Show comparison of scores across documents for a term
-    if "machine" in inverted_index:
-        print(f"\n=== TF-IDF scores for 'machine' across documents ===")
-        docs_with_machine = list(inverted_index["machine"].keys())[:5]  # First 5 docs
-        for doc_id in docs_with_machine:
-            score = tfidf_calculator.calculate_tfidf_syn("machine", doc_id)
-            print(f"{doc_id}: {score:.4f}")
+    # Test queries
+    test_queries = [
+        "machine learning algorithms",
+        "healthy cooking techniques", 
+        "space exploration research",
+        "intelligent systems"
+    ]
+    
+    for query in test_queries:
+        print(f"\n{'='*50}")
+        print(f"SEARCHING: '{query}'")
+        print("="*50)
+        
+        results = search_engine.search(query, top_k=5, show_details=True)
+        
+        print(f"\nTop {len(results)} Results:")
+        for i, (doc_id, score, title, snippet) in enumerate(results, 1):
+            print(f"\n{i}. {doc_id} (Score: {score:.6f})")
+            print(f"   Title: {title}")
+            print(f"   Snippet: {snippet}")
+    
+    # Show detailed analysis for one query-document pair
+    print(f"\n{'='*60}")
+    print("DETAILED SCORING ANALYSIS")
+    print("="*60)
+    
+    search_engine.show_search_details("intelligent machine", "doc1")
     
