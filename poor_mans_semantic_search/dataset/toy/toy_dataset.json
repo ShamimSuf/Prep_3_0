@@ -3,7 +3,7 @@
     {
       "id": "doc1",
       "title": "Machine Learning Basics",
-      "text": "Machine learning is a subset of artificial intelligence that enables computers to learn and make decisions from data without being explicitly programmed. Algorithms analyze patterns in training data to make predictions on new data."
+      "text": "Machine learning systems use algorithms to analyze data and learn patterns. These intelligent systems can process large amounts of information and make accurate predictions. Machine learning is fundamental to modern artificial intelligence applications in technology and research."
     },
     {
       "id": "doc2", 
@@ -32,8 +32,8 @@
     },
     {
       "id": "doc7",
-      "title": "Neural Networks Explained",
-      "text": "Neural networks are computational models inspired by biological neural networks. They consist of interconnected nodes that process information through weighted connections. Deep learning uses multiple layers of neural networks for complex pattern recognition."
+      "title": "Neural Networks Explained", 
+      "text": "Neural networks are advanced machine learning systems that process data through interconnected layers. These systems learn complex patterns from training data and make intelligent predictions. Neural networks form the foundation of modern artificial intelligence research and applications."
     },
     {
       "id": "doc8",
@@ -113,7 +113,7 @@
     {
       "id": "doc23",
       "title": "Deep Learning Applications",
-      "text": "Deep learning algorithms power artificial intelligence applications in computer vision and natural language processing. Machine learning models use neural networks with multiple layers to recognize patterns in complex data sets and make intelligent predictions."
+      "text": "Deep learning systems use advanced algorithms to process complex data and learn sophisticated patterns. These machine learning models excel at making accurate predictions in research applications. Deep learning represents the cutting edge of artificial intelligence technology and data analysis."
     },
     {
       "id": "doc24",
@@ -133,7 +133,7 @@
     {
       "id": "doc27",
       "title": "Data Science and Analytics",
-      "text": "Data science combines statistics, programming, and domain expertise to extract insights from large datasets. Data scientists use machine learning algorithms and artificial intelligence techniques to analyze patterns and build predictive models for business decisions."
+      "text": "Data science involves analyzing large datasets using advanced algorithms and statistical methods. Data scientists apply machine learning techniques to discover patterns and make predictions for research and business applications. These systems process complex information to generate valuable insights."
     },
     {
       "id": "doc28",
@@ -153,7 +153,7 @@
     {
       "id": "doc31",
       "title": "Computer Vision Systems",
-      "text": "Computer vision uses artificial intelligence and machine learning algorithms to analyze and interpret visual data from images and videos. Deep learning neural networks enable computers to recognize objects, faces, and patterns with high accuracy."
+      "text": "Computer vision systems use machine learning algorithms to analyze visual data and recognize patterns in images. These intelligent systems process complex information and make accurate predictions about visual content. Computer vision represents advanced artificial intelligence research in data processing technology."
     },
     {
       "id": "doc32",
@@ -199,6 +199,31 @@
       "id": "doc40",
       "title": "Quantum Computing Advances",
       "text": "Quantum computing represents a revolutionary approach to information processing using quantum mechanical principles. Quantum computers leverage superposition and entanglement to solve complex computational problems exponentially faster than classical computers."
+    },
+    {
+      "id": "doc41",
+      "title": "Restaurant Cooking Methods",
+      "text": "Professional restaurants use advanced cooking techniques and fresh ingredients to create exceptional dishes. Chefs apply precise cooking methods and temperature control to achieve perfect flavors. Restaurant cooking involves systematic food preparation and ingredient selection for consistent quality."
+    },
+    {
+      "id": "doc42",
+      "title": "Culinary Arts Training",
+      "text": "Culinary arts education teaches students proper cooking techniques using fresh ingredients and traditional methods. Students learn food preparation skills, cooking fundamentals, and ingredient combinations. Culinary training emphasizes technique, creativity, and systematic approaches to cooking."
+    },
+    {
+      "id": "doc43",
+      "title": "Medical Research Methods",
+      "text": "Medical research involves systematic data collection and analysis to develop new treatments for patients. Researchers use advanced methods to analyze patient data and make predictions about treatment outcomes. Medical research applies scientific techniques to improve patient care and develop innovative treatments."
+    },
+    {
+      "id": "doc44",
+      "title": "Healthcare Data Analysis",
+      "text": "Healthcare systems use data analysis techniques to improve patient outcomes and treatment methods. Medical professionals analyze patient information using advanced systems to make accurate predictions. Healthcare data analysis involves processing complex medical information to enhance patient care and research."
+    },
+    {
+      "id": "doc45",
+      "title": "Sports Training Systems",
+      "text": "Athletic training programs use systematic methods to improve player performance and technique. Coaches analyze player data and apply advanced training techniques to enhance athletic skills. Sports training involves data analysis, performance predictions, and systematic approaches to athletic development."
     }
   ]
 }

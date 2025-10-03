@@ -13,10 +13,9 @@ Then:
   TF-IDF_syn(S, doc, corpus) = TF_syn(S, doc) × IDF_syn(S, corpus)
 
 
-Tokenization + Lowercasing
+Tokenization + Lowercasing + Punctuation Removal
 Stop Word Removal # use spacy
 Lemmatization
-Punctuation Removal
 Map of doc to its word count (lemmatized words only)
 Inverted index
 {
